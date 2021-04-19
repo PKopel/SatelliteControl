@@ -10,7 +10,7 @@ object MonitoringStation {
 }
 
 class MonitoringStation(val name: String, context: ActorContext[Response]) extends AbstractBehavior[Response](context) {
-  val queries: Map[QueryId, Int] = Map()
+  val queries: Map[QueryID, Int] = Map()
 
   override def onMessage(msg: Response): Behavior[Response] =
     msg match {
