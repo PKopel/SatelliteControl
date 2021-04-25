@@ -34,10 +34,10 @@ class MonitoringStation(val name: String,
         val time = System.currentTimeMillis() - queries(queryId)
         val errors = statusMap.filter { stat => stat.status == NAVIGATION_ERROR && stat.status == PROPULSION_ERROR }
         val errorNumber = errors.size
-        context.log.info(s"station: $name")
-        context.log.info(s"response time: $time")
-        context.log.info(s"responses from $percentage% of satellites")
-        context.log.info(s"number of errors: $errorNumber")
+        context.log.info(s"Station: $name")
+        println(s"""response time: $time
+responses from $percentage% of satellites
+number of errors: $errorNumber""")
         errors.foreach { stat => println(stat) }
         this
       case _ => this
