@@ -1,16 +1,20 @@
 package com
 
+import akka.actor.typed.ActorRef
+
 package object example {
-  type QueryID = Int
+  type QueryID = (ActorRef[Response], Int)
   type SatelliteID = Int
 
   sealed class Message
+
+  class Send extends Message
 
   case class Status(queryID: QueryID, satelliteID: SatelliteID, status: SatelliteAPI.Status) extends Message {
     override def toString: String = s"$satelliteID: $status"
   }
 
-  case class Request(queryId: QueryID, firstSatId: SatelliteID, range: Int, timeout: Int) extends Message
+  case class Request(queryID: QueryID, firstSatID: SatelliteID, range: Int, timeout: Long) extends Message
 
-  case class Response(queryId: QueryID, status: List[Status], percentage: Int) extends Message
+  case class Response(queryID: QueryID, status: List[Status], percentage: Double) extends Message
 }
