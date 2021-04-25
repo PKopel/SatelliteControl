@@ -4,7 +4,13 @@ package object example {
   type QueryID = Int
   type SatelliteID = Int
 
-  case class Request(queryId: QueryID, firstSatId: Int, range: Int, timeout: Int)
+  sealed class Message
 
-  case class Response(queryId: QueryID, status: Map[Int, SatelliteAPI.Status], percentage: Int)
+  case class Status(queryID: QueryID, satelliteID: SatelliteID, status: SatelliteAPI.Status) extends Message {
+    override def toString: String = s"$satelliteID: $status"
+  }
+
+  case class Request(queryId: QueryID, firstSatId: SatelliteID, range: Int, timeout: Int) extends Message
+
+  case class Response(queryId: QueryID, status: List[Status], percentage: Int) extends Message
 }
