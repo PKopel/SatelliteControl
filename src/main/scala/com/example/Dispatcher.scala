@@ -1,12 +1,11 @@
 package com.example
 
 import akka.actor.typed.scaladsl.{AbstractBehavior, ActorContext, Behaviors}
-import akka.actor.typed.{ActorRef, Behavior, DispatcherSelector}
+import akka.actor.typed.{ActorRef, Behavior}
 import akka.util.Timeout
 
 import java.util.concurrent.TimeUnit
 import scala.collection.mutable.ListBuffer
-import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 
 object Dispatcher {
@@ -17,7 +16,7 @@ object Dispatcher {
 }
 
 class Dispatcher(context: ActorContext[Message]) extends AbstractBehavior[Message](context) {
-  println(s"Dispatcher started")
+  context.log.info(s"Dispatcher started")
   type QueryStatus = (Int, Int, Int, ListBuffer[Status])
   var satellites: Map[SatelliteID, ActorRef[Satellite.Request]] =
     (100 until 200).map(id => (id, context.spawn(Satellite(), s"satellite$id"))).toMap

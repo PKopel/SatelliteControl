@@ -8,14 +8,14 @@ import scala.util.Random
 
 object MonitoringStation {
   def apply(name: String, dispatcherRef: ActorRef[Request]): Behavior[Message] =
-    Behaviors.setup(context => new MonitoringStation(name, dispatcherRef, context))
+    Behaviors.setup { context => new MonitoringStation(name, dispatcherRef, context) }
 }
 
 class MonitoringStation(val name: String,
                         val dispatcherRef: ActorRef[Request],
                         context: ActorContext[Message])
   extends AbstractBehavior[Message](context) {
-  println(s"Station $name started")
+  context.log.info(s"Station $name started")
 
   var queryNumber = 0
   val rand = new Random()
@@ -34,10 +34,10 @@ class MonitoringStation(val name: String,
         val time = System.currentTimeMillis() - queries(queryId)
         val errors = statusMap.filter { stat => stat.status == NAVIGATION_ERROR && stat.status == PROPULSION_ERROR }
         val errorNumber = errors.size
-        println(s"station: $name")
-        println(s"response time: $time")
-        println(s"responses from $percentage% of satellites")
-        println(s"number of errors: $errorNumber")
+        context.log.info(s"station: $name")
+        context.log.info(s"response time: $time")
+        context.log.info(s"responses from $percentage% of satellites")
+        context.log.info(s"number of errors: $errorNumber")
         errors.foreach { stat => println(stat) }
         this
       case _ => this
