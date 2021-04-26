@@ -15,9 +15,12 @@ object SatelliteAPI extends Enumeration {
         e.printStackTrace()
     }
     val p = rand.nextDouble
+    /*
     if (p < 0.8) return OK
     if (p < 0.9) return BATTERY_LOW
     if (p < 0.95) return NAVIGATION_ERROR
+
+     */
     PROPULSION_ERROR
   }
 }
