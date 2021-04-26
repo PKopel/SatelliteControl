@@ -33,7 +33,8 @@ class Dispatcher(context: ActorContext[Message]) extends AbstractBehavior[Messag
           queries += (queryID -> (total, numberOk + 1, numberTimeout, newList))
 
         if (numberOk + numberTimeout == total) {
-          ref ! Response(queryID, newList.toList, numberOk * 100.0 / total)
+          val statusMap = newList.map { status => (status.satelliteID, status.status) }.toMap
+          ref ! Response(queryID, statusMap, numberOk * 100.0 / total)
           queries -= queryID
         }
         this

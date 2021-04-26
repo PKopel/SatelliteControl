@@ -16,5 +16,5 @@ package object example {
 
   case class Request(queryID: QueryID, firstSatID: SatelliteID, range: Int, timeout: Long) extends Message
 
-  case class Response(queryID: QueryID, status: List[Status], percentage: Double) extends Message
+  case class Response(queryID: QueryID, status: Map[SatelliteID, SatelliteAPI.Status], percentage: Double) extends Message
 }
