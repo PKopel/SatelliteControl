@@ -8,7 +8,9 @@ package object example {
 
   sealed class Message
 
-  class Send extends Message
+  class SendToSat extends Message
+
+  case class SendToDB(satelliteID: SatelliteID) extends Message
 
   case class Status(queryID: QueryID, satelliteID: SatelliteID, status: SatelliteAPI.Status) extends Message {
     override def toString: String = s"$satelliteID: $status"
@@ -16,5 +18,9 @@ package object example {
 
   case class Request(queryID: QueryID, firstSatID: SatelliteID, range: Int, timeout: Long) extends Message
 
-  case class Response(queryID: QueryID, status: Map[SatelliteID, SatelliteAPI.Status], percentage: Double) extends Message
+  case class DBRequest(sender: ActorRef[Message], satelliteID: SatelliteID) extends Message
+
+  case class Response(queryID: QueryID, status: List[Status], percentage: Double) extends Message
+
+  case class DBResponse(satelliteID: SatelliteID, errors: Int) extends Message
 }
