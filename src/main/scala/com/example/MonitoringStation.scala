@@ -69,12 +69,12 @@ class MonitoringStation(val name: String,
     val time = System.currentTimeMillis() - queries(queryId)
     val errorNumber = errors.size
     val stringBuilder = new StringBuilder(
-      s"""response time: $time
+      s"""Station: $name
+response time: $time
 responses from $percentage% of satellites
 number of errors: $errorNumber\n""")
     errors.foreach { stat => stringBuilder.append(s"$stat\n") }
-    context.log.info(s"Station: $name")
-    println(stringBuilder.toString())
+    context.log.info(stringBuilder.toString())
     this
   }
 

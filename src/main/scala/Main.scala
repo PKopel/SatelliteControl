@@ -44,7 +44,6 @@ object Main extends App {
           e.printStackTrace()
       }
       for (id <- 0 until 100) {
-        println("sending db requests")
         stations.head._2 ! SendToDB(100 + id)
       }
 
